@@ -6,7 +6,7 @@ use App\Models\User_model;
 use App\Models\Pokja_model;
 use App\Models\Pokja_standar_model;
 
-class Pokja extends BaseController
+class Standar extends BaseController
 {
     public function __construct(){
         $this->email = \Config\Services::email();
@@ -24,16 +24,19 @@ class Pokja extends BaseController
         ];
         echo view('admin/layout/wrapper', $data);
     }
-    public function detail($has_pokja)
+    public function detail($has_standar)
     {
 //        checklogin();
         $id_user    = $this->session->get('id_user');
-        $m_pokja    = new Pokja_model();
-        $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
+        $m_standar  = new Pokja_standar_model();
+        $standar    = $m_standar->where('has_standar', $has_standar)->first();
+        $id_standar = $standar['id_standar'];
+        $m_ep       = new Pokja_ep_model();
+        $ep         = $m_ep->where('id_standar', $id_standar)->findAll();
         $data = [
-            'title'     => 'Detail Pokja',
-            'pokja'     => $pokja,
-            'content'   => 'admin/pokja/detail',
+            'title'     => 'Detail Standar',
+            'standar'   => $standar,
+            'content'   => 'admin/standar/detail',
         ];
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);
@@ -127,7 +130,7 @@ class Pokja extends BaseController
 
 
     }
-    public function standar($has_pokja){
+    public function pokja($has_pokja){
 //        checklogin();
         $id_user        = $this->session->get('id_user');
         $m_pokja        = new Pokja_model();
@@ -139,7 +142,7 @@ class Pokja extends BaseController
             'title'     => 'Standar '.$pokja['nama_pokja'],
             'pokja'     => $pokja,
             'standar'   => $standar,
-            'content'   => 'admin/pokja/standar'
+            'content'   => 'admin/standar/pokja'
         ];
 
 //        var_dump($data);
