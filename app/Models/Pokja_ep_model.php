@@ -4,14 +4,14 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class Pokja_standar_model extends Model
+class Pokja_ep_model extends Model
 {
     
-    protected $table                = 'pokja_standar';
-    protected $primaryKey           = 'id_standar';
+    protected $table                = 'pokja_ep';
+    protected $primaryKey           = 'id_ep';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['id_pokja','norut','nama_standar','penjelasan','created_by','created_at','updated_at', 'has_standar'];
+    protected $allowedFields        = ['id_pokja','id_standar','norut','nama_ep','created_by','created_at','updated_at', 'has_ep'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';

@@ -3,28 +3,33 @@
     <?php
     echo csrf_field();
     ?>
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header text-center bg-success">
-                    <b>Tambah Pokja</b>
-                </div>
-                <div class="card-body">
-                    <div class="row mt-2">
-                        <label class="col-md-3">Nama Pokja</label>
-                        <div class="col-md-9 row">
-                            <input type="text" name="nama_pokja" class="form-control form-control-sm" placeholder="nama pokja" value="<?= $pokja['nama_pokja'] ?>" required>
-
-                        </div>
-                    </div>
-
-                </div>
-                <div class="card-footer text-center">
-
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
-                </div>
-            </div>
+    <div class="row mt-2">
+        <label class="col-2 col-md-1">No</label>
+        <label class="col-10 col-md-11">Nama Pokja</label>
+        <div class="col-2 col-md-1">
+            <select class="form-control form-control-sm" name="norut">
+                <?php
+                for ($x = 1; $x <= 50; $x++) {
+                    ?>
+                    <option value="<?= $x?>"><?= $x?></option>
+                    <?php
+                }
+                ?>
+            </select>
         </div>
+        <div class="col-10 col-md-11">
+            <input type="text" name="nama_pokja" class="form-control form-control-sm" value="<?= $pokja['nama_pokja']?>" required>
+        </div>
+
+    </div>
+    <div class="row mt-2">
+        <label class="col-12">Gambaran Umum</label>
+        <div class="col-12">
+            <textarea class="form-control konten" name="penjelasan"><?= $pokja['penjelasan']?></textarea>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <button class="btn btn-primary" type="submit">Save</button>
     </div>
     <?= form_close(); ?>
 

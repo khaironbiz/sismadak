@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\User_model;
 use App\Models\Pokja_model;
+use App\Models\Pokja_ep_model;
 use App\Models\Pokja_standar_model;
 
 class Standar extends BaseController
@@ -33,24 +34,30 @@ class Standar extends BaseController
         $id_standar = $standar['id_standar'];
         $m_ep       = new Pokja_ep_model();
         $ep         = $m_ep->where('id_standar', $id_standar)->findAll();
+
         $data = [
             'title'     => 'Detail Standar',
             'standar'   => $standar,
+            'ep'        => $ep,
             'content'   => 'admin/standar/detail',
         ];
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);
     }
-    public function edit($has_pokja)
+    public function edit($has_standar)
     {
 //        checklogin();
         $id_user    = $this->session->get('id_user');
+        $m_standar  = new Pokja_standar_model();
+        $standar    = $m_standar->where('has_standar', $has_standar)->first();
+        $id_pokja   = $standar['id_pokja'];
         $m_pokja    = new Pokja_model();
-        $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
+        $pokja      = $m_pokja->find($id_pokja);
         $data = [
             'title'     => 'Tambah Pokja',
             'pokja'     => $pokja,
-            'content'   => 'admin/pokja/edit',
+            'standar'   => $standar,
+            'content'   => 'admin/standar/edit',
         ];
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);
@@ -66,6 +73,51 @@ class Standar extends BaseController
             'content'   => 'admin/pokja/tambah',
         ];
         echo view('admin/layout/wrapper', $data);
+    }
+    public function add_pokja($has_pokja)
+    {
+//        checklogin();
+        $id_user    = $this->session->get('id_user');
+        $m_pokja    = new Pokja_model();
+        $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
+        $data = [
+            'title'     => 'Tambah Pokja',
+            'pokja'     => $pokja,
+            'content'   => 'admin/standar/add_pokja',
+        ];
+        echo view('admin/layout/wrapper', $data);
+    }
+    public function create_pokja($has_pokja){
+        checklogin();
+        $id_user        = $this->session->get('id_user');
+        $m_standar      = new Pokja_standar_model();
+        $m_pokja        = new Pokja_model();
+        $pokja          = $m_pokja->where('has_pokja', $has_pokja)->first();
+        $id_pokja       = $pokja['id_pokja'];
+        $time           = time();
+        $data_validasi  = [
+            'nama_standar'  => 'required',
+            'penjelasan'    => 'required'
+        ];
+        if($this->request->getMethod() === 'post'){
+            if($this->validate($data_validasi)){
+                $data = [
+                    'id_pokja'      => $id_pokja,
+                    'nama_standar'  => $this->request->getPost('nama_standar'),
+                    'penjelasan'    => $this->request->getPost('penjelasan'),
+                    'created_at'    => $time,
+                    'created_by'    => $id_user,
+                    'has_standar'   => md5(uniqid())
+                ];
+                $add_standar = $m_standar->save($data);
+            }else{
+                session()->setFlashdata('error', $this->validator->listErrors());
+                return redirect()->back()->withInput();
+            }
+        }else{
+            $this->session->setFlashdata('sukses', 'Data berhasil ditambah');
+            return redirect()->to(base_url('admin/standar/pokja'));
+        }
     }
     public function create(){
         checklogin();
@@ -94,30 +146,37 @@ class Standar extends BaseController
     }
 
     //send email
-    public function update($has_pokja){
+    public function update($has_standar){
 //        checklogin();
         $id_user        = $this->session->get('id_user');
+        $m_standar      = new Pokja_standar_model();
+        $standar        = $m_standar->where('has_standar', $has_standar)->first();
+        $id_pokja       = $standar['id_pokja'];
         $m_pokja        = new Pokja_model();
-        $pokja          = $m_pokja->where('has_pokja',$has_pokja)->first();
+        $pokja          = $m_pokja->find($id_pokja);
         $time           = time();
         $data_validasi  = [
-            'nama_pokja' => 'required'
+            'nama_standar'  => 'required',
+            'penjelasan'    => 'required'
         ];
         if($this->request->getMethod() === 'post') {
             if ($this->validate($data_validasi)) {
                 $data           = [
+                    'id_standar'    => $standar['id_standar'],
                     'id_pokja'      => $pokja['id_pokja'],
-                    'nama_pokja'    => $this->request->getPost('nama_pokja'),
+                    'nama_standar'  => $this->request->getPost('nama_standar'),
+                    'norut'         => $this->request->getPost('norut'),
+                    'penjelasan'    => $this->request->getPost('penjelasan'),
                     'updated_at'    => $time
                 ];
 
-                $update_pokja = $m_pokja->save($data);
-                if($update_pokja != NULL){
+                $update = $m_standar->save($data);
+                if($update != NULL){
                     $this->session->setFlashdata('sukses', 'Data berhasil dirubah');
-                    return redirect()->to(base_url('admin/pokja'));
+                    return redirect()->to(base_url('admin/standar/pokja/'.$pokja['has_pokja']));
                 }else{
                     $this->session->setFlashdata('warning', 'Data gagal dirubah');
-                    return redirect()->to(base_url('admin/pokja'));
+                    return redirect()->to(base_url('admin/standar/pokja/'.$pokja['has_pokja']));
                 }
             }else{
                 session()->setFlashdata('error', $this->validator->listErrors());
@@ -137,7 +196,7 @@ class Standar extends BaseController
         $pokja          = $m_pokja->where('has_pokja', $has_pokja)->first();
         $id_pokja       = $pokja['id_pokja'];
         $m_standar      = new Pokja_standar_model();
-        $standar        = $m_standar->where('id_pokja', $id_pokja)->findAll();
+        $standar        = $m_standar->where('id_pokja', $id_pokja)->orderBy('norut', 'ASC')->findAll();
         $data           = [
             'title'     => 'Standar '.$pokja['nama_pokja'],
             'pokja'     => $pokja,

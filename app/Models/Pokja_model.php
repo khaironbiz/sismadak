@@ -11,7 +11,7 @@ class Pokja_model extends Model
     protected $primaryKey           = 'id_pokja';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['nama_pokja','created_by','created_at','updated_at', 'has_pokja'];
+    protected $allowedFields        = ['nama_pokja','norut','penjelasan','created_by','created_at','updated_at', 'has_pokja'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';
