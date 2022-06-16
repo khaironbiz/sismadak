@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\User_model;
 use App\Models\Pokja_model;
+use App\Models\Pokja_fokus_model;
 use App\Models\Pokja_standar_model;
 
 class Pokja extends BaseController
@@ -29,15 +30,18 @@ class Pokja extends BaseController
 //        checklogin();
         $id_user    = $this->session->get('id_user');
         $m_pokja    = new Pokja_model();
+        $m_standar  = new Pokja_standar_model();
+        $m_fokus    = new Pokja_fokus_model();
         $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
         $id_pokja   = $pokja['id_pokja'];
-        $m_standar  = new Pokja_standar_model();
+        $count_pokja= $m_fokus->count_id_pokja($id_pokja);
         $count_stdr = $m_standar->count($id_pokja);
         $data = [
-            'title'     => 'Detail Pokja',
-            'pokja'     => $pokja,
-            'count_stdr'=> $count_stdr,
-            'content'   => 'admin/pokja/detail',
+            'title'         => 'Detail Pokja',
+            'pokja'         => $pokja,
+            'count_stdr'    => $count_stdr,
+            'count_pokja'   => $count_pokja,
+            'content'       => 'admin/pokja/detail',
         ];
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);

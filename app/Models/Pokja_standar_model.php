@@ -11,7 +11,7 @@ class Pokja_standar_model extends Model
     protected $primaryKey           = 'id_standar';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['id_pokja','norut','nama_standar','penjelasan','created_by','created_at','updated_at', 'has_standar'];
+    protected $allowedFields        = ['id_pokja','id_fokus','norut','nama_standar','penjelasan','created_by','created_at','updated_at', 'has_standar'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';
@@ -21,17 +21,11 @@ class Pokja_standar_model extends Model
     protected $skipValidation       = false;
 
 
-    // Listing
-    public function listing($id_user)
-    {
-        $builder = $this->db->table('url');
-        $builder->select('url.*, users.nama');
-        $builder->where('created_by', $id_user);
-        $builder->join('users', 'users.id_user = url.created_by', 'LEFT');
-        $builder->orderBy('url.id_url', 'DESC');
-        $query = $builder->get();
-
-        return $query->getResultArray();
+    public function max_norut(){
+        $builder = $this->db->table('pokja_standar');
+        $builder->selectMax('norut');
+        $query=$builder->get();
+        return $query->getRowArray();
     }
     // read
     public function detail($has_pokja)
@@ -43,15 +37,7 @@ class Pokja_standar_model extends Model
         $query = $builder->get();
         return $query->getRowArray();
     }
-    //detail
-    public function has_url($has_url)
-    {
-        $builder = $this->db->table('url');
-        $builder->select('*');
-        $builder->where('has_url', $has_url);
-        $query = $builder->get();
-        return $query->getRowArray();
-    }
+
     // count
     public function count($id_pokja)
     {

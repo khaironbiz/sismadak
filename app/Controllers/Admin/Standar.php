@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Models\User_model;
 use App\Models\Pokja_model;
 use App\Models\Pokja_ep_model;
+use App\Models\Pokja_fokus_model;
 use App\Models\Pokja_standar_model;
 
 class Standar extends BaseController
@@ -79,10 +80,16 @@ class Standar extends BaseController
 //        checklogin();
         $id_user    = $this->session->get('id_user');
         $m_pokja    = new Pokja_model();
+        $m_fokus    = new Pokja_fokus_model();
+        $m_standar  = new Pokja_standar_model();
         $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
+        $fokus      = $m_fokus->where('id_pokja',$pokja['id_pokja'])->orderBy('norut', 'ASC')->findAll();
+        $max_norut  = $m_standar->max_norut();
         $data = [
             'title'     => 'Tambah Pokja',
+            'fokus'     => $fokus,
             'pokja'     => $pokja,
+            'max_norut' => $max_norut['norut'],
             'content'   => 'admin/standar/add_pokja',
         ];
         echo view('admin/layout/wrapper', $data);
@@ -103,6 +110,8 @@ class Standar extends BaseController
             if($this->validate($data_validasi)){
                 $data = [
                     'id_pokja'      => $id_pokja,
+                    'id_fokus'      => $this->request->getPost('id_fokus'),
+                    'norut'         => $this->request->getPost('norut'),
                     'nama_standar'  => $this->request->getPost('nama_standar'),
                     'penjelasan'    => $this->request->getPost('penjelasan'),
                     'created_at'    => $time,

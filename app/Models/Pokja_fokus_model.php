@@ -11,7 +11,7 @@ class Pokja_fokus_model extends Model
     protected $primaryKey           = 'id_fokus';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['nama_fokus','created_by','created_at','updated_at', 'has_fokus'];
+    protected $allowedFields        = ['nama_fokus','id_pokja','norut','created_by','created_at','updated_at', 'has_fokus'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';
@@ -21,11 +21,34 @@ class Pokja_fokus_model extends Model
     protected $skipValidation       = false;
 
     // total
+    public function count_id_pokja_norut($id_pokja, $norut)
+    {
+        $builder = $this->db->table('pokja_fokus');
+        $builder->where([
+            'id_pokja'  => $id_pokja,
+            'norut'     => $norut
+        ]);
+        $query   = $builder->get();
+        return $query->getNumRows();
+    }
+    public function count_id_pokja($id_pokja)
+    {
+        $builder = $this->db->table('pokja_fokus');
+        $builder->where('id_pokja', $id_pokja);
+        $query   = $builder->get();
+        return $query->getNumRows();
+    }
+    public function max_norut(){
+        $builder = $this->db->table('pokja_fokus');
+        $builder->selectMax('norut');
+        $query=$builder->get();
+        return $query->getRowArray();
+    }
     public function total()
     {
         $builder = $this->db->table('url');
         $query   = $builder->get();
         return $query->getNumRows();
     }
-    
+
 }

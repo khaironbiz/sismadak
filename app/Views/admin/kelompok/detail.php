@@ -8,47 +8,45 @@
                 <div class="card-body">
                     <table class="table table-sm table-striped">
                         <tr>
-                            <td>Nama Pokja</td>
+                            <td>Kelompok</td>
                             <td>:</td>
-                            <td class="w-75"><?= $pokja['nama_pokja']?></td>
+                            <td class="w-75"><?= $kelompok['kelompok_standar']?></td>
+                        </tr>
+                        <tr>
+                            <td>Pokja</td>
+                            <td>:</td>
+                            <td class="w-75"></td>
                         </tr>
                         <tr>
                             <td>Fokus Penilaian</td>
                             <td>:</td>
-                            <td class="w-75"><a href="<?= base_url('admin/fokus/pokja/'.$pokja['has_pokja'])?>" class="btn btn-sm btn-info"><?= $count_pokja?> Fokus</a></td>
+                            <td class="w-75"></td>
                         </tr>
                         <tr>
                             <td>Standar</td>
                             <td>:</td>
-                            <td><a href="<?= base_url('admin/standar/pokja/'.$pokja['has_pokja'])?>" class="btn btn-sm btn-info"><?= $count_stdr?> Standar</a></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>EP Standar</td>
                             <td>:</td>
-                            <td><?= $pokja['nama_pokja']?></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>Sub Standar</td>
                             <td>:</td>
-                            <td><?= $pokja['nama_pokja']?></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>EP Sub Standar</td>
                             <td>:</td>
-                            <td><?= $pokja['nama_pokja']?></td>
+                            <td></td>
                         </tr>
                     </table>
-                    <div class="row mt-2">
-                        <div class="col-12"><b>Gambaran Umum</b></div>
-                        <div class="col-12">
-                            <?= $pokja['penjelasan']?>
-                        </div>
 
-
-                    </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <a href="<?= base_url('admin/pokja/edit/'.$pokja['has_pokja'])?>" class="btn btn-sm btn-success">Edit</a>
+                            <a href="<?= base_url('admin/kelompok/edit/'.$kelompok['has_kelompok_standar'])?>" class="btn btn-sm btn-success">Edit</a>
                         </div>
                         <div class="col-md-6 text-right">
                             <a href="#" class="btn btn-sm btn-danger">Delete</a>

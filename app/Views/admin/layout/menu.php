@@ -47,6 +47,13 @@ $site        = $konfigurasi->listing();
           </li>
 
             <li class="nav-item">
+                <a href="<?= base_url('admin/kelompok') ?>" class="nav-link">
+                    <i class="nav-icon fas fa-tasks"></i>
+                    <p>Kelompok</p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="<?= base_url('admin/pokja') ?>" class="nav-link">
                     <i class="nav-icon fas fa-tasks"></i>
                     <p>Pokja</p>

@@ -19,35 +19,13 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <label class="col-12">Fokus</label>
-                        <div class="col-12">
-                            <select class="form-control form-control-sm" name="id_fokus" required>
-                                <option value="">---pilih---</option>
-                                <?php
-                                foreach ($fokus as $fokus):
-                                ?>
-                                <option value="<?= $fokus['id_fokus']?>"><?= $fokus['norut']?>.  <?= $fokus['nama_fokus']?></option>
-                                <?php
-                                endforeach;
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-2">
                         <label class="col-12">Nomor Urut</label>
                         <div class="col-12">
                             <select class="form-control form-control-sm" name="norut">
                                 <?php
                                 for ($x = 1; $x <= 50; $x++) {
-                                    $max_norut_baru = $max_norut+1;
                                     ?>
-                                    <option value="<?= $x?>"
-                                        <?php
-                                        if($max_norut_baru == $x){
-                                            echo "selected";
-                                        }
-                                        ?>
-                                    ><?= $x?></option>
+                                    <option value="<?= $x?>"><?= $x?></option>
                                     <?php
                                 }
                                 ?>
