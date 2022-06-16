@@ -11,7 +11,7 @@ class Pokja_model extends Model
     protected $primaryKey           = 'id_pokja';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['nama_pokja','norut','penjelasan','created_by','created_at','updated_at', 'has_pokja'];
+    protected $allowedFields        = ['nama_pokja','id_kelompok','norut','penjelasan','created_by','created_at','updated_at', 'has_pokja'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';
@@ -21,18 +21,6 @@ class Pokja_model extends Model
     protected $skipValidation       = false;
 
 
-    // Listing
-    public function listing($id_user)
-    {
-        $builder = $this->db->table('url');
-        $builder->select('url.*, users.nama');
-        $builder->where('created_by', $id_user);
-        $builder->join('users', 'users.id_user = url.created_by', 'LEFT');
-        $builder->orderBy('url.id_url', 'DESC');
-        $query = $builder->get();
-
-        return $query->getResultArray();
-    }
     // read
     public function detail($has_pokja)
     {
@@ -43,36 +31,19 @@ class Pokja_model extends Model
         $query = $builder->get();
         return $query->getRowArray();
     }
-    //detail
-    public function has_url($has_url)
-    {
-        $builder = $this->db->table('url');
-        $builder->select('*');
-        $builder->where('has_url', $has_url);
-        $query = $builder->get();
-        return $query->getRowArray();
-    }
-    // count
-    public function count($short)
-    {
-        $builder = $this->db->table('url')->where('short', $short);
+    //count kelompok
+    public function count_kelompok($id_kelompok){
+        $builder = $this->db->table('pokja');
+        $builder->where('id_kelompok', $id_kelompok);
         $query   = $builder->get();
         return $query->getNumRows();
     }
-    
     // total
     public function total()
     {
-        $builder = $this->db->table('url');
+        $builder = $this->db->table('pokja');
         $query   = $builder->get();
         return $query->getNumRows();
-    }
-    
-    // tambah
-    public function tambah($data)
-    {
-        $builder = $this->db->table('url');
-        $builder->insert($data);
     }
 
 }

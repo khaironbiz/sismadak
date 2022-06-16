@@ -16,8 +16,11 @@
             foreach ($pokja as $pokja):
                 ?>
                 <tr>
-                    <td><?= $pokja['norut']?></td>
-                    <td><?= $pokja['nama_pokja']?></td>
+                    <td><?= $no++?></td>
+                    <td>
+                        <?= $pokja['nama_pokja']?><br>
+                        <small><?= $pokja['kelompok_standar']?></small>
+                    </td>
                     <td><a href="<?= base_url('admin/pokja/detail/'.$pokja['has_pokja'])?>" class="btn btn-sm btn-info">Detail</a></td>
                 </tr>
             <?php

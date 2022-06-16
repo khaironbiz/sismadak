@@ -2,7 +2,7 @@
 
 	<div class="col-md-10">
         <a href="<?= base_url('admin/kelompok/tambah')?>" class="btn btn-sm btn-primary mb-2">Tambah</a>
-		<table class="table table-sm table-striped" id="example1">
+		<table class="table table-sm table-striped">
             <thead>
                 <tr>
                     <th>#</th>

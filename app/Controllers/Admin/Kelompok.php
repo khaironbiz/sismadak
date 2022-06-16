@@ -30,16 +30,19 @@ class Kelompok extends BaseController
     public function detail($has_kelompok_standar)
     {
 //        checklogin();
-        $id_user    = $this->session->get('id_user');
-        $m_kelompok = new Kelompok_standar_model();
-        $m_pokja    = new Pokja_model();
-        $kelompok   = $m_kelompok->where('has_kelompok_standar', $has_kelompok_standar)->first();
+        $id_user        = $this->session->get('id_user');
+        $m_standar      = new Pokja_standar_model();
+        $m_kelompok     = new Kelompok_standar_model();
+        $m_pokja        = new Pokja_model();
+        $kelompok       = $m_kelompok->where('has_kelompok_standar', $has_kelompok_standar)->first();
+        $count_kelompok = $m_pokja->count_kelompok($kelompok['id_kelompok_standar']);
         $data = [
-            'title'     => 'Detail Kelompok Standar',
-            'kelompok'  => $kelompok,
-            'content'   => 'admin/kelompok/detail',
+            'title'             => 'Detail Kelompok Standar',
+            'kelompok'          => $kelompok,
+            'count_kelompok'    => $count_kelompok,
+            'content'           => 'admin/kelompok/detail',
         ];
-//        var_dump($data);
+//        var_dump($kelompok);
         echo view('admin/layout/wrapper', $data);
     }
     public function tambah()

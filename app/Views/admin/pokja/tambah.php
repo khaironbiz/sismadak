@@ -11,7 +11,12 @@
                 <?php
                 for ($x = 1; $x <= 50; $x++) {
                     ?>
-                    <option value="<?= $x?>"><?= $x?></option>
+                    <option value="<?= $x?>"
+                        <?php
+                        $norut_baru = $total+1;
+                        if($norut_baru == $x){echo "selected";}
+                        ?>
+                    ><?= $x?></option>
                     <?php
                 }
                 ?>
@@ -21,6 +26,21 @@
             <input type="text" name="nama_pokja" class="form-control form-control-sm" placeholder="nama pokja" value="<?= set_value('nama_pokja') ?>" required>
         </div>
 
+    </div>
+    <div class="row mt-2">
+        <label class="col-12">Kelompok</label>
+        <div class="col-12">
+            <select class="form-control form-control-sm" name="id_kelompok" required>
+                <option value="">---Pilih---</option>
+                <?php
+                foreach ($kelompok as $kelompok) {
+                    ?>
+                    <option value="<?= $kelompok['id_kelompok_standar']?>"><?= $kelompok['kelompok_standar']?></option>
+                    <?php
+                }
+                ?>
+            </select>
+        </div>
     </div>
     <div class="row mt-2">
         <label class="col-12">Gambaran Umum</label>

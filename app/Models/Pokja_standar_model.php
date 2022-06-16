@@ -20,7 +20,16 @@ class Pokja_standar_model extends Model
     protected $validationMessages   = [];
     protected $skipValidation       = false;
 
+    //count kelompok
+    public function count_kelompok($id_kelompok){
+        $builder = $this->db->table('pokja_standar');
+        $builder->join('pokja', 'pokja.id_pokja = kelompok_standar.id_pokja','LEFT');
+        $builder->join('kelompok_standar', 'kelompok_standar.id_kelompok_standar=pokja.id_kelompok','LEFT');
+        $builder->where('pokja.id_kelompok', $id_kelompok);
+        $query   = $builder->get();
+        return $query->getNumRows();
 
+    }
     public function max_norut(){
         $builder = $this->db->table('pokja_standar');
         $builder->selectMax('norut');

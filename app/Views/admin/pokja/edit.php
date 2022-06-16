@@ -20,7 +20,24 @@
         <div class="col-10 col-md-11">
             <input type="text" name="nama_pokja" class="form-control form-control-sm" value="<?= $pokja['nama_pokja']?>" required>
         </div>
-
+    </div>
+    <div class="row mt-2">
+        <label class="col-12">Kelompok</label>
+        <div class="col-12">
+            <select class="form-control form-control-sm" name="id_kelompok" required>
+                <?php
+                foreach ($kelompok as $kelompok) {
+                    ?>
+                    <option value="<?= $kelompok['id_kelompok_standar']?>"
+                        <?php
+                        if($kelompok['id_kelompok_standar'] == $pokja['id_kelompok']){ echo "selected";}
+                        ?>
+                    ><?= $kelompok['kelompok_standar']?></option>
+                    <?php
+                }
+                ?>
+            </select>
+        </div>
     </div>
     <div class="row mt-2">
         <label class="col-12">Gambaran Umum</label>

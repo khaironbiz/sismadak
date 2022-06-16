@@ -21,7 +21,6 @@ class Kelompok_standar_model extends Model
     protected $skipValidation       = false;
 
 
-
     public function total()
     {
         $builder = $this->db->table('kelompok_standar');

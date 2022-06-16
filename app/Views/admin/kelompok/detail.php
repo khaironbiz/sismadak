@@ -15,7 +15,7 @@
                         <tr>
                             <td>Pokja</td>
                             <td>:</td>
-                            <td class="w-75"></td>
+                            <td class="w-75"><?= $count_kelompok?></td>
                         </tr>
                         <tr>
                             <td>Fokus Penilaian</td>

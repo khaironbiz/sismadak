@@ -2,10 +2,10 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\User_model;
 use App\Models\Pokja_model;
 use App\Models\Pokja_fokus_model;
 use App\Models\Pokja_standar_model;
+use App\Models\Kelompok_standar_model;
 
 class Pokja extends BaseController
 {
@@ -17,7 +17,11 @@ class Pokja extends BaseController
 //        checklogin();
         $id_user    = $this->session->get('id_user');
         $m_pokja    = new Pokja_model();
-        $pokja      = $m_pokja->orderBy('norut','ASC')->findAll();
+        $pokja      = $m_pokja
+                        ->select('pokja.*, kelompok_standar.kelompok_standar')
+                        ->join('kelompok_standar','kelompok_standar.id_kelompok_standar = pokja.id_kelompok','LEFT')
+                        ->orderBy('norut','ASC')
+                        ->findAll();
         $data = [
             'title'     => 'List Pokja',
             'pokja'     => $pokja,
@@ -51,10 +55,13 @@ class Pokja extends BaseController
 //        checklogin();
         $id_user    = $this->session->get('id_user');
         $m_pokja    = new Pokja_model();
+        $m_kelompok = new Kelompok_standar_model();
         $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
+        $kelompok   = $m_kelompok->findAll();
         $data = [
             'title'     => 'Tambah Pokja',
             'pokja'     => $pokja,
+            'kelompok'  => $kelompok,
             'content'   => 'admin/pokja/edit',
         ];
 //        var_dump($data);
@@ -65,25 +72,31 @@ class Pokja extends BaseController
 //        checklogin();
         $id_user    = $this->session->get('id_user');
         $m_pokja    = new Pokja_model();
-        $pokja      = $m_pokja->findAll();
+        $m_kelompok = new Kelompok_standar_model();
+        $kelompok   = $m_kelompok->findAll();
+        $total      = $m_pokja->total();
         $data = [
             'title'     => 'Tambah Pokja',
+            'kelompok'  => $kelompok,
+            'total'     => $total,
             'content'   => 'admin/pokja/tambah',
         ];
         echo view('admin/layout/wrapper', $data);
     }
     public function create(){
-        checklogin();
+//        checklogin();
         $id_user        = $this->session->get('id_user');
         $m_pokja        = new Pokja_model();
         $time           = time();
         $data_validasi  = [
-            'nama_pokja' => 'required'
+            'nama_pokja'    => 'required',
+            'id_kelompok'   => 'required'
         ];
         if($this->request->getMethod() === 'post'){
             if($this->validate($data_validasi)){
                 $data = [
                     'nama_pokja'    => $this->request->getPost('nama_pokja'),
+                    'id_kelompok'   => $this->request->getPost('id_kelompok'),
                     'norut'         => $this->request->getPost('norut'),
                     'created_at'    => $time,
                     'created_by'    => $id_user,
@@ -115,6 +128,7 @@ class Pokja extends BaseController
             if ($this->validate($data_validasi)) {
                 $data           = [
                     'id_pokja'      => $pokja['id_pokja'],
+                    'id_kelompok'   => $this->request->getPost('id_kelompok'),
                     'norut'         => $this->request->getPost('norut'),
                     'nama_pokja'    => $this->request->getPost('nama_pokja'),
                     'penjelasan'    => $this->request->getPost('penjelasan'),
