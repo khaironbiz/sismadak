@@ -15,22 +15,22 @@
                         <tr>
                             <td>Pokja</td>
                             <td>:</td>
-                            <td class="w-75"><?= $count_kelompok?></td>
+                            <td class="w-75"><a href="<?= base_url('admin/pokja/kelompok/'.$kelompok['has_kelompok_standar'])?>" class="btn btn-sm btn-success"><?= $count_pokja?> Pokja</a></td>
                         </tr>
                         <tr>
                             <td>Fokus Penilaian</td>
                             <td>:</td>
-                            <td class="w-75"></td>
+                            <td class="w-75"><?= $count_fokus?></td>
                         </tr>
                         <tr>
                             <td>Standar</td>
                             <td>:</td>
-                            <td></td>
+                            <td><?= $count_standar?></td>
                         </tr>
                         <tr>
                             <td>EP Standar</td>
                             <td>:</td>
-                            <td></td>
+                            <td><?= $count_ep ?></td>
                         </tr>
                         <tr>
                             <td>Sub Standar</td>

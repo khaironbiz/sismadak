@@ -11,6 +11,16 @@
                 </div>
                 <div class="card-body">
                     <div class="row mt-2">
+                        <label class="col-12">Kelompok</label>
+                        <div class="col-12">
+                            <select class="form-control form-control-sm" name="id_kelompok">
+
+                                <option value="<?= $kelompok['id_kelompok_standar']?>"><?= $kelompok['kelompok_standar']?></option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
                         <label class="col-12">Nama Pokja</label>
                         <div class="col-12">
                             <select class="form-control form-control-sm">

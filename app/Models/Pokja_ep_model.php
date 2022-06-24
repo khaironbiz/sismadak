@@ -11,7 +11,7 @@ class Pokja_ep_model extends Model
     protected $primaryKey           = 'id_ep';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['id_pokja','id_standar','norut','nama_ep','created_by','created_at','updated_at', 'has_ep'];
+    protected $allowedFields        = ['id_pokja','id_kelompok','id_standar','norut','nama_ep','created_by','created_at','updated_at', 'has_ep'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';
@@ -56,6 +56,13 @@ class Pokja_ep_model extends Model
     public function count($id_pokja)
     {
         $builder = $this->db->table('pokja_standar')->where('id_pokja', $id_pokja);
+        $query   = $builder->get();
+        return $query->getNumRows();
+    }
+    // count
+    public function count_kelompok($id_kelompok)
+    {
+        $builder = $this->db->table('pokja_ep')->where('id_kelompok', $id_kelompok);
         $query   = $builder->get();
         return $query->getNumRows();
     }

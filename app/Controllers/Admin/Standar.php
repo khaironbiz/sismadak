@@ -110,6 +110,7 @@ class Standar extends BaseController
             if($this->validate($data_validasi)){
                 $data = [
                     'id_pokja'      => $id_pokja,
+                    'id_kelompok'   => $pokja['id_kelompok'],
                     'id_fokus'      => $this->request->getPost('id_fokus'),
                     'norut'         => $this->request->getPost('norut'),
                     'nama_standar'  => $this->request->getPost('nama_standar'),
@@ -119,6 +120,8 @@ class Standar extends BaseController
                     'has_standar'   => md5(uniqid())
                 ];
                 $add_standar = $m_standar->save($data);
+                $this->session->setFlashdata('sukses', 'Data berhasil ditambah');
+                return redirect()->to(base_url('admin/standar/pokja/'.$pokja['has_pokja']));
             }else{
                 session()->setFlashdata('error', $this->validator->listErrors());
                 return redirect()->back()->withInput();
@@ -216,6 +219,7 @@ class Standar extends BaseController
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);
     }
+
     private function sendEmail($attachment, $to, $title, $message){
 
 		$this->email->setFrom('hpii.ppni@gmail.com','khairon');

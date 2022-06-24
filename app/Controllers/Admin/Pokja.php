@@ -33,16 +33,21 @@ class Pokja extends BaseController
     {
 //        checklogin();
         $id_user    = $this->session->get('id_user');
+        $m_kelompok = new Kelompok_standar_model();
         $m_pokja    = new Pokja_model();
         $m_standar  = new Pokja_standar_model();
         $m_fokus    = new Pokja_fokus_model();
         $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
         $id_pokja   = $pokja['id_pokja'];
+        $fokus      = $m_fokus->where('id_pokja', $id_pokja)->findAll();
+        $kelompok   = $m_kelompok->find($pokja['id_kelompok']);
         $count_pokja= $m_fokus->count_id_pokja($id_pokja);
         $count_stdr = $m_standar->count($id_pokja);
         $data = [
             'title'         => 'Detail Pokja',
+            'kelompok'      => $kelompok,
             'pokja'         => $pokja,
+            'fokus'         => $fokus,
             'count_stdr'    => $count_stdr,
             'count_pokja'   => $count_pokja,
             'content'       => 'admin/pokja/detail',
@@ -96,6 +101,7 @@ class Pokja extends BaseController
             if($this->validate($data_validasi)){
                 $data = [
                     'nama_pokja'    => $this->request->getPost('nama_pokja'),
+                    'penjelasan'    => $this->request->getPost('penjelasan'),
                     'id_kelompok'   => $this->request->getPost('id_kelompok'),
                     'norut'         => $this->request->getPost('norut'),
                     'created_at'    => $time,
@@ -171,6 +177,22 @@ class Pokja extends BaseController
 
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);
+    }
+    public function kelompok($has_kelompok_standar){
+        $id_user                = $this->session->get('id_user');
+        $m_kelompok             = new Kelompok_standar_model();
+        $kelompok               = $m_kelompok->where('has_kelompok_standar', $has_kelompok_standar)->first();
+        $id_kelompok_standar    = $kelompok['id_kelompok_standar'];
+        $m_pokja                = new Pokja_model();
+        $pokja                  = $m_pokja->where('id_kelompok', $id_kelompok_standar)->findAll();
+        $data                   = [
+            'title'     => 'Pokja berdasarkan kelompok standar',
+            'kelompok'  => $kelompok,
+            'pokja'     => $pokja,
+            'content'   => 'admin/pokja/kelompok'
+        ];
+        echo view('admin/layout/wrapper', $data);
+
     }
     private function sendEmail($attachment, $to, $title, $message){
 

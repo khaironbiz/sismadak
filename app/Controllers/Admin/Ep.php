@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\Kelompok_standar_model;
 use App\Models\User_model;
 use App\Models\Pokja_model;
 use App\Models\Pokja_ep_model;
@@ -34,7 +35,7 @@ class Ep extends BaseController
         $m_standar  = new Pokja_standar_model();
         $standar    = $m_standar->find($ep['id_standar']);
         $data = [
-            'title'     => 'Detail Standar',
+            'title'     => 'Detail Elemen Penilaian',
             'standar'   => $standar,
             'ep'        => $ep,
             'content'   => 'admin/ep/detail',
@@ -90,6 +91,7 @@ class Ep extends BaseController
             if($this->validate($data_validasi)){
                 $data = [
                     'id_pokja'      => $id_pokja,
+                    'id_kelompok'   => $standar['id_kelompok'],
                     'id_standar'    => $id_standar,
                     'norut'         => $this->request->getPost('norut'),
                     'nama_ep'       => $this->request->getPost('nama_ep'),
@@ -198,6 +200,24 @@ class Ep extends BaseController
         ];
 
 //        var_dump($data);
+        echo view('admin/layout/wrapper', $data);
+    }
+    //add ep berdasarkan standar
+    public function addstandar($has_standar){
+        $m_standar      = new Pokja_standar_model();
+        $m_kelompok     = new Kelompok_standar_model();
+        $m_pokja        = new Pokja_model();
+        $standar        = $m_standar->where('has_standar', $has_standar)->findAll();
+        $pokja          = $m_pokja->find($standar['id_pokja']);
+        $kelompok       = $m_kelompok->find($standar['id_kelompok']);
+        $data           = [
+            'Title'     => "Tambah Elemen Penilaian",
+            'kelompok'  => $kelompok,
+            'pokja'     => $pokja,
+            'standar'   => $standar,
+            'content'   => 'admin/ep/add_standar'
+
+        ];
         echo view('admin/layout/wrapper', $data);
     }
     private function sendEmail($attachment, $to, $title, $message){

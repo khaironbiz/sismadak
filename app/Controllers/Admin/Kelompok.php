@@ -27,22 +27,27 @@ class Kelompok extends BaseController
 //        var_dump($data);
         echo view('admin/layout/wrapper', $data);
     }
-    public function detail($has_kelompok_standar)
-    {
-//        checklogin();
+    public function detail($has_kelompok_standar){
         $id_user        = $this->session->get('id_user');
+        $m_fokus        = new Pokja_fokus_model();
         $m_standar      = new Pokja_standar_model();
         $m_kelompok     = new Kelompok_standar_model();
         $m_pokja        = new Pokja_model();
+        $m_ep           = new Pokja_ep_model();
         $kelompok       = $m_kelompok->where('has_kelompok_standar', $has_kelompok_standar)->first();
-        $count_kelompok = $m_pokja->count_kelompok($kelompok['id_kelompok_standar']);
+        $count_pokja    = $m_pokja->count_kelompok($kelompok['id_kelompok_standar']);
+        $count_fokus    = $m_fokus->count_id_kelompok($kelompok['id_kelompok_standar']);
+        $count_standar  = $m_standar->count_kelompok($kelompok['id_kelompok_standar']);
+        $count_ep       = $m_ep->count_kelompok($kelompok['id_kelompok_standar']);
         $data = [
-            'title'             => 'Detail Kelompok Standar',
-            'kelompok'          => $kelompok,
-            'count_kelompok'    => $count_kelompok,
-            'content'           => 'admin/kelompok/detail',
+            'title'         => 'Detail Kelompok Standar',
+            'kelompok'      => $kelompok,
+            'count_pokja'   => $count_pokja,
+            'count_fokus'   => $count_fokus,
+            'count_standar' => $count_standar,
+            'count_ep'      => $count_ep,
+            'content'       => 'admin/kelompok/detail',
         ];
-//        var_dump($kelompok);
         echo view('admin/layout/wrapper', $data);
     }
     public function tambah()

@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Admin;
 
+use App\Models\Kelompok_standar_model;
 use App\Models\User_model;
 use App\Models\Pokja_model;
 use App\Models\Pokja_ep_model;
@@ -145,13 +146,16 @@ class Fokus extends BaseController
     {
 //        checklogin();
         $id_user    = $this->session->get('id_user');
+        $m_kelompok = new Kelompok_standar_model();
         $m_pokja    = new Pokja_model();
         $m_fokus    = new Pokja_fokus_model();
         $pokja      = $m_pokja->where('has_pokja', $has_pokja)->first();
-        $max_norut  = $m_fokus->max_norut();
+        $kelompok   = $m_kelompok->find($pokja['id_kelompok']);
+        $max_norut  = $m_fokus->max_norut($pokja['id_pokja']);
         $data = [
             'title'     => 'Tambah Pokja',
             'pokja'     => $pokja,
+            'kelompok'  => $kelompok,
             'max_norut' => $max_norut,
             'content'   => 'admin/fokus/add_pokja',
         ];
@@ -174,6 +178,7 @@ class Fokus extends BaseController
             if($this->validate($data_validasi)){
                 $data = [
                     'id_pokja'      => $pokja['id_pokja'],
+                    'id_kelompok'   => $this->request->getPost('id_kelompok'),
                     'norut'         => $this->request->getPost('norut'),
                     'nama_fokus'    => $this->request->getPost('nama_fokus'),
                     'created_at'    => $time,

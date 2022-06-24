@@ -8,6 +8,11 @@
                 <div class="card-body">
                     <table class="table table-sm table-striped">
                         <tr>
+                            <td>Nama Kelompok</td>
+                            <td>:</td>
+                            <td class="w-75"><?= $kelompok['kelompok_standar']?></td>
+                        </tr>
+                        <tr>
                             <td>Nama Pokja</td>
                             <td>:</td>
                             <td class="w-75"><?= $pokja['nama_pokja']?></td>
@@ -42,6 +47,16 @@
                         <div class="col-12"><b>Gambaran Umum</b></div>
                         <div class="col-12">
                             <?= $pokja['penjelasan']?>
+                        </div>
+                        <div class="col-12"><b>Fokus Penilaian</b></div>
+                        <div class="col-12">
+                            <?php
+                            foreach ($fokus as $fokus):
+                            ?>
+                            <li><?= $fokus['nama_fokus']?></li>
+                            <?php
+                                endforeach;
+                            ?>
                         </div>
 
 

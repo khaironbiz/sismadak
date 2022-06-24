@@ -11,7 +11,7 @@ class Pokja_standar_model extends Model
     protected $primaryKey           = 'id_standar';
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
-    protected $allowedFields        = ['id_pokja','id_fokus','norut','nama_standar','penjelasan','created_by','created_at','updated_at', 'has_standar'];
+    protected $allowedFields        = ['id_pokja','id_kelompok','id_fokus','norut','nama_standar','penjelasan','created_by','created_at','updated_at', 'has_standar'];
     protected $useTimestamps        = false;
     protected $createdField         = 'created_at';
     protected $updatedField         = 'updated_at';
@@ -21,14 +21,12 @@ class Pokja_standar_model extends Model
     protected $skipValidation       = false;
 
     //count kelompok
-    public function count_kelompok($id_kelompok){
-        $builder = $this->db->table('pokja_standar');
-        $builder->join('pokja', 'pokja.id_pokja = kelompok_standar.id_pokja','LEFT');
-        $builder->join('kelompok_standar', 'kelompok_standar.id_kelompok_standar=pokja.id_kelompok','LEFT');
-        $builder->where('pokja.id_kelompok', $id_kelompok);
+
+    public function count_kelompok($id_kelompok_standar)
+    {
+        $builder = $this->db->table('pokja_standar')->where('id_kelompok', $id_kelompok_standar);
         $query   = $builder->get();
         return $query->getNumRows();
-
     }
     public function max_norut(){
         $builder = $this->db->table('pokja_standar');
